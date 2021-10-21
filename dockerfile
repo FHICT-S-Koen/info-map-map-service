@@ -1,4 +1,4 @@
-FROM maven:latest-jdk-11-slim AS build
+FROM maven:3.8.3-jdk-11-slim AS build
 
 COPY src /home/map-service/src
 COPY pom.xml /home/map-service
