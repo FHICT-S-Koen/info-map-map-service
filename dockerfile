@@ -1,20 +1,24 @@
-FROM maven:3.8.3-jdk-11-slim AS build
+FROM openjdk:latest
 
 WORKDIR /app
 
+# Copy required project files into container
+COPY src /home/app/map-service/src
+COPY pom.xml /home/app/map-service
+
+# Set enivornment variables
 ARG AUDIENCE=abc
 ARG DOMAIN=abc
 ARG DB_URL=abc
 ARG DB_USERNAME=abc
 ARG DB_PASSWORD=abc
 
-COPY src /home/app/map-service/src
-COPY pom.xml /home/app/map-service
-
-RUN mvn -f /home/app/map-service/pom.xml clean package
+# Build for production
+RUN mvn --batch-mode --update-snapshots verify
 
 FROM openjdk:11-jre-slim
 
-COPY --from=build /home/app/map-service/target/map-service-0.0.1-SNAPSHOT.jar /usr/local/lib/map-service.jar
+COPY --from=build /home/app/map-service/target/map-service-0.0.1-SNAPSHOT.jar map-service.jar
 
-CMD ["java","-jar","/usr/local/lib/map-service.jar"]
+# Start 
+CMD ["java","-jar","map-service.jar"]
