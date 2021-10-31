@@ -19,8 +19,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private String issuer;
 
     @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
                 .mvcMatchers("/api/public").permitAll()
                 .mvcMatchers("/api/private").authenticated()
                 .mvcMatchers("/api/private-scoped").hasAuthority("SCOPE_read:messages")
@@ -28,16 +28,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().oauth2ResourceServer().jwt().decoder(jwtDecoder());
     }
 
-    @Bean
     JwtDecoder jwtDecoder() {
-        NimbusJwtDecoder jwtDecoder = JwtDecoders.fromOidcIssuerLocation(issuer);
-
         OAuth2TokenValidator<Jwt> audienceValidator = new AudienceValidator(audience);
         OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(issuer);
         OAuth2TokenValidator<Jwt> withAudience = new DelegatingOAuth2TokenValidator<>(withIssuer, audienceValidator);
 
+        NimbusJwtDecoder jwtDecoder = JwtDecoders.fromOidcIssuerLocation(issuer);
         jwtDecoder.setJwtValidator(withAudience);
-
         return jwtDecoder;
     }
 }
