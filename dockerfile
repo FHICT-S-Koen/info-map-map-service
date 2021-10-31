@@ -14,7 +14,7 @@ ARG DB_USERNAME=abc
 ARG DB_PASSWORD=abc
 
 # Build for production
-RUN mvn --update-snapshots package
+RUN mvn -DAUDIENCE=AUDIENCE -DDOMAIN=DOMAIN -DDB_URL=DB_URL -DDB_USERNAME=DB_USERNAME -DDB_PASSWORD=DB_PASSWORD --update-snapshots package
 
 # Start
 CMD ["java","-jar","/app/target/map-service-0.0.1-SNAPSHOT.jar"]
