@@ -16,9 +16,5 @@ ARG DB_PASSWORD=abc
 # Build for production
 RUN mvn --update-snapshots package
 
-FROM openjdk:11-jre-slim
-
-COPY --from=build /app/target/map-service-0.0.1-SNAPSHOT.jar map-service.jar
-
 # Start
-CMD ["java","-jar","map-service.jar"]
+CMD ["java","-jar","/app/target/map-service-0.0.1-SNAPSHOT.jar"]
