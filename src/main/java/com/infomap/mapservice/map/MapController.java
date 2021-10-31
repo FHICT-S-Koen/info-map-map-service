@@ -14,7 +14,12 @@ public class MapController {
         this.mapService = mapService;
     }
 
-    @PostMapping("private")
+    @GetMapping("public")
+    public String getTest() {
+        return "Test!";
+    }
+
+    @PostMapping
     public void createMap(@RequestBody Map map) {
         mapService.createMap(map);
     }
