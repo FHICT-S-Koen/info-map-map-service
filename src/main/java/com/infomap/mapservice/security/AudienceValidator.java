@@ -1,5 +1,6 @@
 package com.infomap.mapservice.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
@@ -9,6 +10,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 class AudienceValidator implements OAuth2TokenValidator<Jwt> {
     private final String audience;
 
+    @Autowired
     AudienceValidator(String audience) {
         this.audience = audience;
     }
