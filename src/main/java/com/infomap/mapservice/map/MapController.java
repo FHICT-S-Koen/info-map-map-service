@@ -9,7 +9,6 @@ public class MapController {
 
     private final MapService mapService;
 
-    @Autowired
     public MapController(MapService mapService) {
         this.mapService = mapService;
     }
