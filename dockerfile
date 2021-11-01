@@ -14,7 +14,7 @@ ARG DOMAIN=abc
 ARG AUDIENCE=abc
 
 # Build for production
-RUN mvn -DDB_URL=${DB_URL} -DDB_USERNAME=${DB_USERNAME} -DDB_PASSWORD=${DB_PASSWORD} -DDOMAIN=${DOMAIN} -DAUDIENCE=${AUDIENCE} --update-snapshots package
+RUN mvn -DPROFILE=production -DDB_URL=${DB_URL} -DDB_USERNAME=${DB_USERNAME} -DDB_PASSWORD=${DB_PASSWORD} -DDOMAIN=${DOMAIN} -DAUDIENCE=${AUDIENCE} --update-snapshots package
 
 # Start
 CMD ["java","-jar","/app/target/map-service-0.0.1-SNAPSHOT.jar"]
